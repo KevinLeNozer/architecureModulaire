@@ -1,5 +1,6 @@
 package eu.unareil.bo;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,12 +78,13 @@ public class Produit {
 
     @Override
     public String toString() {
+        DecimalFormat prixUnit = new DecimalFormat("#0.00");
         final StringBuilder sb = new StringBuilder("Produit{");
         sb.append("refProd=").append(refProd);
         sb.append(", marque='").append(marque).append('\'');
         sb.append(", libelle='").append(libelle).append('\'');
         sb.append(", qteStock=").append(qteStock);
-        sb.append(", prixUnitaire=").append(prixUnitaire + "€");
+        sb.append(", prixUnitaire=").append(prixUnit.format(prixUnitaire) + "€");
         sb.append('}');
         return sb.toString();
     }
