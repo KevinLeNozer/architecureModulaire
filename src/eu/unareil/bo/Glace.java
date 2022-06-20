@@ -5,23 +5,19 @@ import java.time.LocalDate;
 public class Glace extends ProduitPerissable{
     private String parfum;
     private int temperatureConservation;
-    private long id;
 
-    public Glace(LocalDate dateLimiteDeConso, long id) {
-        super(dateLimiteDeConso, id);
+    public Glace() {
+        super();
     }
 
-    public Glace(long refProd, String libelle, String marque, long qteStock, float prixUnitaire, LocalDate dateLimiteDeConso, String parfum, int temperatureConservation, long id) {
-        super(refProd, libelle, marque, qteStock, prixUnitaire, dateLimiteDeConso, id);
-        this.parfum = parfum;
-        this.temperatureConservation = temperatureConservation;
-        this.id = id;
+    public Glace(long refProd, String marque,String libelle, long qteStock, float prixUnitaire, LocalDate dateLimiteDeConso, String parfum, int temperatureConservation) {
+        super(refProd, libelle, marque, qteStock, prixUnitaire, dateLimiteDeConso);
+        this.setParfum(parfum);
+        this.setTemperatureConservation(temperatureConservation);
     }
 
-    public Glace(String marque, String libelle, long qteStock, float prixUnitaire, LocalDate dateLimiteDeConso, String parfum, int temperatureConservation, long id) {
-        super(marque, libelle, qteStock, prixUnitaire, dateLimiteDeConso, id);
-        this.parfum = parfum;
-        this.temperatureConservation = temperatureConservation;
+    public Glace(LocalDate dateLimiteDeConso, String marque, String libelle, int temperatureConservation, String parfum, long qteStock, float prixUnitaire) {
+        this(0, marque, libelle, qteStock, prixUnitaire, dateLimiteDeConso, parfum, temperatureConservation);
     }
 
     public String getParfum() {
@@ -39,21 +35,11 @@ public class Glace extends ProduitPerissable{
     public void setTemperatureConservation(int temperatureConservation) {
         this.temperatureConservation = temperatureConservation;
     }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Glace{");
         sb.append("parfum='").append(parfum).append('\'');
         sb.append(", temperatureConservation=").append(temperatureConservation);
-        sb.append(", id=").append(id);
         sb.append(", produits=").append(produits);
         sb.append('}');
         return sb.toString();

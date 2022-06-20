@@ -14,7 +14,7 @@ public class Produit {
     public Produit() {
         super();
     }
-    public Produit(long refProd, String libelle, String marque, long qteStock, float prixUnitaire) {
+    public Produit(long refProd, String marque, String libelle,long qteStock, float prixUnitaire) {
         this.setRefProd(refProd);
         this.setLibelle(libelle);
         this.setMarque(marque);
@@ -23,10 +23,8 @@ public class Produit {
     }
 
     public Produit(String marque, String libelle, long qteStock, float prixUnitaire) {
-        this.setMarque(marque);
-        this.setLibelle(libelle);
-        this.setQteStock(qteStock);
-        this.setPrixUnitaire(prixUnitaire);
+        this(0, marque, libelle, qteStock, prixUnitaire);
+
     }
 
     public long getRefProd() {
@@ -77,4 +75,16 @@ public class Produit {
         this.produits = produits;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Produit{");
+        sb.append("refProd=").append(refProd);
+        sb.append(", marque='").append(marque).append('\'');
+        sb.append(", libelle='").append(libelle).append('\'');
+        sb.append(", qteStock=").append(qteStock);
+        sb.append(", prixUnitaire=").append(prixUnitaire);
+        sb.append(", produits=").append(produits);
+        sb.append('}');
+        return sb.toString();
+    }
 }

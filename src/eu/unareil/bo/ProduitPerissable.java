@@ -5,23 +5,18 @@ import java.time.LocalDate;
 
 public class ProduitPerissable extends Produit{
     private LocalDate dateLimiteDeConso;
-    private long id;
 
-    public ProduitPerissable(LocalDate dateLimiteDeConso, long id) {
-        this.dateLimiteDeConso = dateLimiteDeConso;
-        this.id = id;
+    public ProduitPerissable() {
+      super();
     }
 
-    public ProduitPerissable(long refProd, String libelle, String marque, long qteStock, float prixUnitaire, LocalDate dateLimiteDeConso, long id) {
-        super(refProd, libelle, marque, qteStock, prixUnitaire);
-        this.dateLimiteDeConso = dateLimiteDeConso;
-        this.id = id;
+    public ProduitPerissable(long refProd, String marque, String libelle, long qteStock, float prixUnitaire, LocalDate dateLimiteDeConso) {
+        super(refProd, marque, libelle, qteStock, prixUnitaire);
+        this.setDateLimiteDeConso(dateLimiteDeConso);
     }
 
-    public ProduitPerissable(String marque, String libelle, long qteStock, float prixUnitaire, LocalDate dateLimiteDeConso, long id) {
-        super(marque, libelle, qteStock, prixUnitaire);
-        this.dateLimiteDeConso = dateLimiteDeConso;
-        this.id = id;
+    public ProduitPerissable(String marque, String libelle, long qteStock, float prixUnitaire, LocalDate dateLimiteDeConso) {
+        this(0, marque, libelle, qteStock, prixUnitaire, dateLimiteDeConso);
     }
 
     public LocalDate getDateLimiteDeConso() {

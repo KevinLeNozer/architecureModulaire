@@ -1,25 +1,27 @@
 package eu.unareil.bo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartePostale extends Produit{
     private String type;
-    private long id;
+
+    List<Auteur> lesAuteursDeLaCarte = new ArrayList<>();
+
 
     public CartePostale() {
         super();
     }
 
-    public CartePostale(long refProd, String libelle, String marque, float prixUnitaire, long qteStock, String type, long id) {
-        super(refProd, libelle, marque, prixUnitaire, qteStock);
-        this.type = type;
-        this.id = id;
+    public CartePostale(long refProd, String marque, String libelle, long qteStock,
+                        float prixUnitaire, List<Auteur> lesAuteursDeLaCarte, String type) {
+        super(refProd, libelle, marque, qteStock, prixUnitaire);
+        this.setType(type);
+        this.setLesAuteursDeLaCarte(lesAuteursDeLaCarte);
     }
 
-    public CartePostale(String marque, String libelle, float prixUnitaire, long qteStock, String type, long id) {
-        super(marque, libelle, prixUnitaire, qteStock);
-        this.type = type;
-        this.id = id;
+    public CartePostale(String marque, String libelle, long qteStock, float prixUnitaire, List<Auteur> lesAuteursDeLaCarte, TypeCartePostale type) {
+        this(0, marque, libelle, qteStock, prixUnitaire, lesAuteursDeLaCarte, type.getLibelle());
     }
 
     public String getType() {
@@ -30,19 +32,19 @@ public class CartePostale extends Produit{
         this.type = type;
     }
 
-    public long getId() {
-        return id;
+    public List<Auteur> getLesAuteursDeLaCarte() {
+        return lesAuteursDeLaCarte;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setLesAuteursDeLaCarte(List<Auteur> lesAuteursDeLaCarte) {
+        this.lesAuteursDeLaCarte = lesAuteursDeLaCarte;
     }
 
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("CartePostale{");
         sb.append("type='").append(type).append('\'');
-        sb.append(", id=").append(id);
+        sb.append(", lesAuteursDeLaCarte=").append(lesAuteursDeLaCarte);
         sb.append(", produits=").append(produits);
         sb.append('}');
         return sb.toString();
