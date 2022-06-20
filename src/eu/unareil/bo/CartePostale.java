@@ -42,10 +42,10 @@ public class CartePostale extends Produit{
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("CartePostale{");
+        final StringBuilder sb = new StringBuilder("CartePostale{");
+        sb.append(super.toString());
         sb.append("type='").append(type).append('\'');
         sb.append(", lesAuteursDeLaCarte=").append(lesAuteursDeLaCarte);
-        sb.append(", produits=").append(produits);
         sb.append('}');
         return sb.toString();
     }

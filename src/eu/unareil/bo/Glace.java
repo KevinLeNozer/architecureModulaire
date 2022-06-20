@@ -10,14 +10,14 @@ public class Glace extends ProduitPerissable{
         super();
     }
 
-    public Glace(long refProd, String marque,String libelle, long qteStock, float prixUnitaire, LocalDate dateLimiteDeConso, String parfum, int temperatureConservation) {
+    public Glace(long refProd, String libelle, String marque, long qteStock, float prixUnitaire, LocalDate dateLimiteDeConso, String parfum, int temperatureConservation) {
         super(refProd, libelle, marque, qteStock, prixUnitaire, dateLimiteDeConso);
         this.setParfum(parfum);
         this.setTemperatureConservation(temperatureConservation);
     }
 
-    public Glace(LocalDate dateLimiteDeConso, String marque, String libelle, int temperatureConservation, String parfum, long qteStock, float prixUnitaire) {
-        this(0, marque, libelle, qteStock, prixUnitaire, dateLimiteDeConso, parfum, temperatureConservation);
+    public Glace(LocalDate dateLimiteDeConso, String libelle, String marque, int temperatureConservation, String parfum, long qteStock, float prixUnitaire) {
+        this(0, libelle, marque, qteStock, prixUnitaire, dateLimiteDeConso, parfum, temperatureConservation);
     }
 
     public String getParfum() {
@@ -35,12 +35,13 @@ public class Glace extends ProduitPerissable{
     public void setTemperatureConservation(int temperatureConservation) {
         this.temperatureConservation = temperatureConservation;
     }
+
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Glace{");
+        final StringBuilder sb = new StringBuilder("Glace{");
+        sb.append(super.toString());
         sb.append("parfum='").append(parfum).append('\'');
         sb.append(", temperatureConservation=").append(temperatureConservation);
-        sb.append(", produits=").append(produits);
         sb.append('}');
         return sb.toString();
     }

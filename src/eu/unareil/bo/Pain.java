@@ -14,7 +14,7 @@ public class Pain extends ProduitPerissable{
         this.setPoids(poids);
     }
 
-    public Pain(String libelle, String marque, long qteStock, float prixUnitaire, float poids) {
+    public Pain(String libelle, String marque, float poids, long qteStock, float prixUnitaire) {
         this(0, libelle, marque, poids, qteStock, prixUnitaire);
     }
 

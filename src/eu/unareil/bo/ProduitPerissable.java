@@ -29,12 +29,10 @@ public class ProduitPerissable extends Produit{
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("ProduitPerissable{");
+        final StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
         sb.append("dateLimiteDeConso=").append(dateLimiteDeConso);
-        sb.append(", produits=").append(produits);
         sb.append('}');
         return sb.toString();
     }
-
-
 }

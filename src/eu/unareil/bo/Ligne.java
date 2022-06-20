@@ -35,6 +35,7 @@ public class Ligne {
         final StringBuilder sb = new StringBuilder("Ligne{");
         sb.append("quantite=").append(quantite);
         sb.append(", produit=").append(produit);
+        sb.append(", prix=").append(getPrix());
         sb.append('}');
         return sb.toString();
     }

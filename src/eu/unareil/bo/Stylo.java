@@ -36,10 +36,10 @@ public class Stylo extends Produit{
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Stylo{");
+        final StringBuilder sb = new StringBuilder("Stylo{");
+        sb.append(super.toString());
         sb.append("couleur='").append(couleur).append('\'');
         sb.append(", typeMine='").append(typeMine).append('\'');
-        sb.append(", produits=").append(produits);
         sb.append('}');
         return sb.toString();
     }

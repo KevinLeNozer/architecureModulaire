@@ -35,7 +35,7 @@ public class Auteur {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Auteur{");
+        final StringBuilder sb = new StringBuilder("Auteur{");
         sb.append("prenom='").append(prenom).append('\'');
         sb.append(", nom='").append(nom).append('\'');
         sb.append('}');

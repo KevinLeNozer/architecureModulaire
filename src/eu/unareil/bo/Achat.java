@@ -4,12 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Achat {
-    private Double montant;
+    private Double montant = 0d;
 
     List<Ligne> lignes = new ArrayList<>();
 
+    public Double caclulMontant() {
+        montant = 0d;
+        for (Ligne ligne : lignes) {
+            montant += ligne.getPrix();
+        }
+        return montant;
+    }
+
     public Achat(Ligne ligne) {
         lignes.add(ligne);
+        caclulMontant();
     }
 
     public Double getMontant() {
@@ -30,28 +39,24 @@ public class Achat {
 
     public void ajouteLigne(Produit p, int qte) {
         lignes.add(new Ligne(p, qte));
+        caclulMontant();
     }
 
     public void modifieLigne(int index, int nouvelleQte) {
         lignes.get(index).setQuantite(nouvelleQte);
+        caclulMontant();
     }
 
     public void supprimeLigne(int index) {
         lignes.remove(lignes.get(index));
-    }
-
-    public Double caclulMontant() {
-        for (Ligne ligne : lignes) {
-            montant+= ligne.getPrix();
-        }
-        return montant;
+        caclulMontant();
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Achat{");
-        sb.append("montant=").append(montant);
         sb.append(", lignes=").append(lignes);
+        sb.append(", Total de l'achat :").append(montant);
         sb.append('}');
         return sb.toString();
     }
