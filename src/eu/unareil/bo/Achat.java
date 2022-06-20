@@ -56,7 +56,7 @@ public class Achat {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Achat{");
         sb.append(", lignes=").append(lignes);
-        sb.append(", Total de l'achat :").append(montant);
+        sb.append(", Total de l'achat :").append((double)Math.round(montant * 100)/100 + "€");
         sb.append('}');
         return sb.toString();
     }

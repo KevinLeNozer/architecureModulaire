@@ -13,8 +13,7 @@ public class CartePostale extends Produit{
         super();
     }
 
-    public CartePostale(long refProd, String marque, String libelle, long qteStock,
-                        float prixUnitaire, List<Auteur> lesAuteursDeLaCarte, String type) {
+    public CartePostale(long refProd, String marque, String libelle, long qteStock, float prixUnitaire, List<Auteur> lesAuteursDeLaCarte, String type) {
         super(refProd, libelle, marque, qteStock, prixUnitaire);
         this.setType(type);
         this.setLesAuteursDeLaCarte(lesAuteursDeLaCarte);
