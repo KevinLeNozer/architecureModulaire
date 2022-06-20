@@ -82,7 +82,7 @@ public class Produit {
         sb.append(", marque='").append(marque).append('\'');
         sb.append(", libelle='").append(libelle).append('\'');
         sb.append(", qteStock=").append(qteStock);
-        sb.append(", prixUnitaire=").append(prixUnitaire);
+        sb.append(", prixUnitaire=").append(prixUnitaire + "€");
         sb.append('}');
         return sb.toString();
     }
