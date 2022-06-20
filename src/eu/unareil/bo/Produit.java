@@ -7,14 +7,14 @@ public class Produit {
     private long refProd;
     private String marque;
     private String libelle;
-    private float prixUnitaire;
     private long qteStock;
+    private float prixUnitaire;
     List<Produit> produits = new ArrayList<>();
 
     public Produit() {
         super();
     }
-    public Produit(long refProd, String libelle, String marque, float prixUnitaire, long qteStock) {
+    public Produit(long refProd, String libelle, String marque, long qteStock, float prixUnitaire) {
         this.setRefProd(refProd);
         this.setLibelle(libelle);
         this.setMarque(marque);
@@ -22,11 +22,11 @@ public class Produit {
         this.setQteStock(qteStock);
     }
 
-    public Produit(String marque, String libelle, float prixUnitaire, long qteStock) {
-        this.marque = marque;
-        this.libelle = libelle;
-        this.prixUnitaire = prixUnitaire;
-        this.qteStock = qteStock;
+    public Produit(String marque, String libelle, long qteStock, float prixUnitaire) {
+        this.setMarque(marque);
+        this.setLibelle(libelle);
+        this.setQteStock(qteStock);
+        this.setPrixUnitaire(prixUnitaire);
     }
 
     public long getRefProd() {

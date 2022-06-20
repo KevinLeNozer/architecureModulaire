@@ -1,7 +1,5 @@
 package eu.unareil.bo;
 
-import java.util.List;
-
 public class Stylo extends Produit{
     private String couleur;
     private String typeMine;
@@ -11,18 +9,17 @@ public class Stylo extends Produit{
         super();
     }
 
-    public Stylo(long refProd, String libelle, String marque, float prixUnitaire, long qteStock, String couleur, String typeMine, long id) {
-        super(refProd, libelle, marque, prixUnitaire, qteStock);
-        this.couleur = couleur;
-        this.typeMine = typeMine;
-        this.id = id;
+    public Stylo(long refProd, String libelle, String marque, long qteStock, float prixUnitaire, String couleur, String typeMine, long id) {
+        super(refProd, libelle, marque, qteStock, prixUnitaire);
+        this.setCouleur(couleur);
+        this.setTypeMine(typeMine);
+        this.setId(id);
     }
 
-    public Stylo(String marque, String libelle, float prixUnitaire, long qteStock, String couleur, String typeMine, long id) {
-        super(marque, libelle, prixUnitaire, qteStock);
-        this.couleur = couleur;
-        this.typeMine = typeMine;
-        this.id = id;
+    public Stylo(String marque, String libelle, float prixUnitaire, long qteStock, String couleur, String typeMine) {
+        super(marque, libelle, qteStock, prixUnitaire);
+        this.setCouleur(couleur);
+        this.setTypeMine(typeMine);
     }
 
     public String getCouleur() {
@@ -47,5 +44,16 @@ public class Stylo extends Produit{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Stylo{");
+        sb.append("couleur='").append(couleur).append('\'');
+        sb.append(", typeMine='").append(typeMine).append('\'');
+        sb.append(", id=").append(id);
+        sb.append(", produits=").append(produits);
+        sb.append('}');
+        return sb.toString();
     }
 }
