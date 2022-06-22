@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Auteur {
+    private int id;
     private String prenom;
     private String nom;
 
@@ -16,6 +17,18 @@ public class Auteur {
         this.setNom(nom);
     }
 
+    public Auteur(int id, String prenom, String nom) {
+        this(prenom, nom);
+        this.setId(id);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getPrenom() {
         return prenom;

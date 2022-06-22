@@ -1,5 +1,6 @@
 package eu.unareil.bo;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Glace extends ProduitPerissable{
@@ -10,14 +11,15 @@ public class Glace extends ProduitPerissable{
         super();
     }
 
-    public Glace(long refProd, String libelle, String marque, long qteStock, float prixUnitaire, LocalDate dateLimiteDeConso, String parfum, int temperatureConservation) {
-        super(refProd, libelle, marque, qteStock, prixUnitaire, dateLimiteDeConso);
+    public Glace(long refProd, String marque, String libelle, long qteStock, float prixUnitaire,
+                 LocalDate dateLimiteDeConso, String parfum, int temperatureConservation) {
+        super(refProd, marque,libelle, qteStock, prixUnitaire, dateLimiteDeConso);
         this.setParfum(parfum);
         this.setTemperatureConservation(temperatureConservation);
     }
 
-    public Glace(LocalDate dateLimiteDeConso, String libelle, String marque, int temperatureConservation, String parfum, long qteStock, float prixUnitaire) {
-        this(0, libelle, marque, qteStock, prixUnitaire, dateLimiteDeConso, parfum, temperatureConservation);
+    public Glace(LocalDate dateLimiteDeConso, String marque, String libelle, int temperatureConservation, String parfum, long qteStock, float prixUnitaire) {
+        this(0, marque, libelle, qteStock, prixUnitaire, dateLimiteDeConso, parfum, temperatureConservation);
     }
 
     public String getParfum() {

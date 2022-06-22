@@ -37,7 +37,8 @@ public class AppliTestBO {
 			List<Auteur> lesAuteursDeLaCarte = new ArrayList<>();
 			lesAuteursDeLaCarte.add(new Auteur("André","Dussoliuer"));
 			lesAuteursDeLaCarte.add(new Auteur("Béatrice","Barbante"));
-			CartePostale uneCarte = new CartePostale("Carte Sud Bretagne","La mine d'Or", 10000, 0.80f,lesAuteursDeLaCarte,TypeCartePostale.Paysage);
+			CartePostale uneCarte = new CartePostale("Carte Sud Bretagne","La mine d'Or", 10000,
+					0.80f,lesAuteursDeLaCarte,TypeCartePostale.Paysage);
 			System.out.println("\nREM : Affichage d'un produit carte postale");
 			System.out.println(uneCarte.toString());
 			System.out.println("---------------------------------------------------------------");

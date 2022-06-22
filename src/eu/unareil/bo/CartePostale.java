@@ -12,14 +12,14 @@ public class CartePostale extends Produit{
         super();
     }
 
-    public CartePostale(long refProd, String marque, String libelle, long qteStock, float prixUnitaire, List<Auteur> lesAuteursDeLaCarte, String type) {
+    public CartePostale(long refProd, String marque, String libelle, long qteStock, float prixUnitaire, List<Auteur> lesAuteursDeLaCarte, TypeCartePostale type) {
         super(refProd, libelle, marque, qteStock, prixUnitaire);
-        this.setType(type);
+        this.setType(type.name());
         this.setLesAuteursDeLaCarte(lesAuteursDeLaCarte);
     }
 
     public CartePostale(String marque, String libelle, long qteStock, float prixUnitaire, List<Auteur> lesAuteursDeLaCarte, TypeCartePostale type) {
-        this(0, marque, libelle, qteStock, prixUnitaire, lesAuteursDeLaCarte, type.getLibelle());
+        this(0, marque, libelle, qteStock, prixUnitaire, lesAuteursDeLaCarte, type);
     }
 
     public String getType() {

@@ -14,6 +14,10 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
     private static final String SQL_DELETE = "delete from produit where refProd=?";
     private static final String SQL_SELECT_BY_ID = "select * from produit where refProd=?";
     private static final String SQL_SELECT_ALL = "select * from produit";
+    private static final String SQL_INSERT_AUTEUR_CartePostale = "insert into auteur_cartepostale" +
+            " (refAuteur, refCartePostale )" + "values(?, ?)";
+    private static final String SQL_SELECT_ALL_AUTEUR = "select * from auteur_cartepostale where " +
+            "refAuteur=?";
     @Override
     public void insert(Produit data) throws DALException {
         PreparedStatement pstmt = null;
@@ -54,15 +58,27 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
                 pstmt.setString(11, ((Stylo) data).getTypeMine());
                 pstmt.setNull(12, Types.NULL);
             } else if (data instanceof CartePostale) {
-
-                pstmt.setNull(12, Types.VARCHAR);
+                pstmt.setString(5, "CartePostale");
+                pstmt.setNull(6, Types.NULL);
+                pstmt.setNull(7, Types.NULL);
+                pstmt.setNull(8, Types.NULL);
+                pstmt.setNull(9, Types.NULL);
+                pstmt.setNull(10, Types.NULL);
+                pstmt.setNull(11, Types.NULL);
+                pstmt.setString(12, ((CartePostale) data).getType());
             }
-            System.out.println(pstmt);
             int nbRow = pstmt.executeUpdate();
             if (nbRow == 1) {
                 ResultSet rs = pstmt.getGeneratedKeys();
                 if (rs.next()) {
                     data.setRefProd(rs.getLong(1));
+                    PreparedStatement cartePostalPstmt = null;
+                    for (Auteur auteur : ((CartePostale) data).getLesAuteursDeLaCarte()) {
+                        cartePostalPstmt = cnx.prepareStatement(SQL_INSERT_AUTEUR_CartePostale);
+                        cartePostalPstmt.setInt(1, auteur.getId());
+                        cartePostalPstmt.setLong(2, data.getRefProd());
+                        cartePostalPstmt.executeUpdate();
+                    }
                 }
             }
 
@@ -113,16 +129,26 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
     public Produit selectById(long id) throws DALException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        Produit el = null;
+        Produit produit = null;
         Connection cnx = JDBCTools.getConnection();
         try {
             pstmt = cnx.prepareStatement(SQL_SELECT_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                el = new Produit(rs.getString(1), rs.getString(2), rs.getLong(3), rs.getFloat(4));
-            }
+                if (rs.getString(6).equals("stylo")) {
+                    produit = new Stylo(rs.getLong(1), rs.getString(2), rs.getString(3),
+                            rs.getLong(4), rs.getFloat(5), rs.getString(11), rs.getString(12));
+                } else if (rs.getString(6).equals("pain")) {
+                    produit = new Pain(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getFloat(5), rs.getLong(4), rs.getFloat(8));
 
+                } else if (rs.getString(6).equals("glace")) {
+                    //long refProd, String libelle, String marque, long qteStock, float prixUnitaire, LocalDate dateLimiteDeConso, String parfum, int temperatureConservation
+                    produit = new Glace(rs.getLong(1), rs.getString(2), rs.getString(3),
+                            rs.getLong(4), rs.getInt(5), rs.getDate(7).toLocalDate(),
+                            rs.getString(9), rs.getInt(10));
+                }
+            }
         } catch (SQLException e) {
             throw new DALException("Erreur du select by id - id=" + id, e);
         }
@@ -135,7 +161,7 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
                 throw new DALException("Erreur du select by id - id=" + id, e);
             }
         }
-        return el;
+        return produit;
     }
 
     @Override
@@ -145,27 +171,30 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
         Statement stmt=null;
         ResultSet rs=null;
         List<Produit> lesElements= new ArrayList<>();
-        Produit el = null;
+        Produit produit = null;
         try {
             stmt = cnx.createStatement();
             rs = stmt.executeQuery(SQL_SELECT_ALL);
             while(rs.next())
             {
-                if (rs.getString(6).equals("Stylo")) {
-                   el = new Stylo(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getLong(4),
-                           rs.getFloat(5), rs.getString(11), rs.getString(12));
-                    lesElements.add(el);
-                } else if (rs.getString(6).equals("Pain")) {
-                   el = new Pain(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getFloat(5), rs.getLong(4), rs.getFloat(8));
-                    lesElements.add(el);
-                } else if (rs.getString(6).equals("Glace")) {
-                        
+                if (rs.getString(6).equals("stylo")) {
+                   produit = new Stylo(rs.getLong(1), rs.getString(2), rs.getString(3),
+                           rs.getLong(4), rs.getFloat(5), rs.getString(11), rs.getString(12));
+                    lesElements.add(produit);
+                } else if (rs.getString(6).equals("pain")) {
+                   produit = new Pain(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getFloat(5), rs.getLong(4), rs.getFloat(8));
+                    lesElements.add(produit);
+                } else if (rs.getString(6).equals("glace")) {
+                    //long refProd, String libelle, String marque, long qteStock, float prixUnitaire, LocalDate dateLimiteDeConso, String parfum, int temperatureConservation
+                    produit = new Glace(rs.getLong(1), rs.getString(2), rs.getString(3),
+                            rs.getLong(4), rs.getInt(5), rs.getDate(7).toLocalDate(),
+                            rs.getString(9), rs.getInt(10));
+                    lesElements.add(produit);
                 }
-
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
-            throw new DALException("erreur du select all",e);
+            throw new DALException("erreur du select all", e);
         }
         finally
         {

@@ -1,22 +1,21 @@
 package eu.unareil.dal.jdbc;
 
-import eu.unareil.bo.Glace;
-import eu.unareil.bo.Pain;
-import eu.unareil.bo.Produit;
-import eu.unareil.bo.Stylo;
+import eu.unareil.bo.*;
 import eu.unareil.dal.DALException;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class TestProduitJDBCImpl {
+
     public static void main(String[] args) {
+        ProduitsJDBCImpl produitJdbc = new ProduitsJDBCImpl();
+        AuteursJDBCImpl auteursJDBC = new AuteursJDBCImpl();
         // TODO Auto-generated method stub
         //Insert du Pain
-       /*ProduitsJDBCImpl elJdbc = new ProduitsJDBCImpl();
         try {
             //Insert du pain
-            Pain pain = new Pain("blé dur2", "Tradition", 125, 500, 3.75f);
+            /*Pain pain = new Pain("blé dur2", "Tradition", 125, 500, 3.75f);
             elJdbc.insert(pain);
 
             //Insert de la glace
@@ -25,22 +24,35 @@ public class TestProduitJDBCImpl {
 
             //Insert du stylo
              Stylo stylo = new Stylo("Stabilo","Point 88 - la Cerisaie", 10000, 2.50f, "bleu", "Stylo à bille");
-             elJdbc.insert(stylo);
+             elJdbc.insert(stylo);*/
 
-        } catch (DALException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }*/
-
-        ProduitsJDBCImpl elJdbc2 = new ProduitsJDBCImpl();
-        try {
-            List<Produit> maListe = elJdbc2.selectAll();
-            for(Produit el: maListe)
+//            Auteur auteurExemple = new Auteur("Kevin", "Le Nozer");
+//
+//
+//                auteursJDBC.insert(auteurExemple);
+//
+            List<Auteur> auteurs = auteursJDBC.selectAll();
+            for(Auteur auteur: auteurs)
             {
-                System.out.println(el);
+               System.out.println(auteur);
             }
-        } catch (DALException e) {
-            // TODO Auto-generated catch block
+
+
+//            List<Produit> produits = produitJdbc.selectAll();
+//            for(Produit produit: produits)
+//            {
+//                System.out.println(produit);
+//            }
+//
+//
+//
+//            Produit produitSelect = produitJdbc.selectById();
+//            System.out.println("=> " + produitSelect.toString());
+//
+//            produitJdbc.delete(produitSelect);
+//            System.out.println("Produit supprimé => " + produitSelect);
+
+        }catch (DALException e) {
             e.printStackTrace();
         }
 

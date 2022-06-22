@@ -10,7 +10,7 @@ public interface DAO <T>{
 
     public void delete(T data) throws DALException;
 
-    Produit selectById(long id) throws DALException;
+    T selectById(long id) throws DALException;
 
-    List<Produit> selectAll() throws DALException;
+    List<T> selectAll() throws DALException;
 }
