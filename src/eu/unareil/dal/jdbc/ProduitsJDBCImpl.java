@@ -9,8 +9,8 @@ import java.util.List;
 
 public class ProduitsJDBCImpl implements DAO<Produit>{
 
-    private static final String SQL_INSERT = "insert into produit (libelle, marque, qteStock, prixUnitaire, dateLimiteConso, poids, parfum, temperatureConservation, couleur, typeMine, typeCartePostal)" +
-            "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_INSERT = "insert into produit (marque, libelle, qteStock, " +
+            "prixUnitaire, type, dateLimiteConso, poids, parfum, temperatureConservation, couleur, typeMine, typeCartePostale)" + "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_DELETE = "delete from produit where refProd=?";
     private static final String SQL_SELECT_BY_ID = "select * from produit where refProd=?";
     private static final String SQL_SELECT_ALL = "select * from produit";
@@ -21,26 +21,36 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
         try {
             pstmt = cnx.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 
-            pstmt.setString(1, data.getLibelle());
-            pstmt.setString(2, data.getMarque());
+            pstmt.setString(1, data.getMarque());
+            pstmt.setString(2, data.getLibelle());
             pstmt.setLong(3, data.getQteStock());
             pstmt.setFloat(4, data.getPrixUnitaire());
 
             if (data instanceof Pain) {
-                pstmt.setNull(6, Types.INTEGER);
-                pstmt.setNull(7, Types.DATE);
+                pstmt.setString(5, "pain");
+                pstmt.setDate(6, Date.valueOf(((Pain) data).getDateLimiteDeConso()));
+                pstmt.setFloat(7, ((Pain) data).getPoids());
+                pstmt.setNull(8, Types.NULL);
+                pstmt.setNull(9, Types.NULL);
+                pstmt.setNull(10, Types.NULL);
+                pstmt.setNull(11, Types.NULL);
+                pstmt.setNull(12, Types.NULL);
             } else if (data instanceof Glace) {
-                pstmt.setNull(6, Types.INTEGER);
-                pstmt.setNull(7, Types.DATE);
-                pstmt.setNull(8, Types.INTEGER);
-                pstmt.setNull(9, Types.VARCHAR);
-                pstmt.setNull(10, Types.INTEGER);
+                pstmt.setString(5, "glace");
+                pstmt.setDate(6, Date.valueOf(((Glace) data).getDateLimiteDeConso()));
+                pstmt.setNull(7, Types.NULL);
+                pstmt.setString(8, ((Glace) data).getParfum());
+                pstmt.setInt(9, ((Glace) data).getTemperatureConservation());
+                pstmt.setNull(10, Types.NULL);
+                pstmt.setNull(11, Types.NULL);
+                pstmt.setNull(12, Types.NULL);
             } else if (data instanceof Stylo) {
                 pstmt.setNull(11, Types.VARCHAR);
                 pstmt.setNull(12, Types.VARCHAR);
             } else if (data instanceof CartePostale) {
                 pstmt.setNull(12, Types.VARCHAR);
             }
+            System.out.println(pstmt);
             int nbRow = pstmt.executeUpdate();
             if (nbRow == 1) {
                 ResultSet rs = pstmt.getGeneratedKeys();
@@ -50,7 +60,7 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
             }
 
         } catch (SQLException e) {
-            throw new DALException("Erreur du insert - data=" + data, e.getCause());
+            throw new DALException("Erreur du insert - data=" + data, e);
         }
         finally
         {
@@ -61,7 +71,7 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
                 }
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
-                throw new DALException("erreur du insert au niveau du close- data=" + data, e.getCause());
+                throw new DALException("erreur du insert au niveau du close- data=" + data, e);
             }
         }
     }
@@ -76,7 +86,7 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
             pstmt.setLong(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DALException("Erreur du delete - id=" + id, e.getCause());
+            throw new DALException("Erreur du delete - id=" + id, e);
         }
         finally {
             try {
@@ -87,7 +97,7 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
                     cnx.close();
                 }
             } catch (SQLException e) {
-                throw new DALException("Erreur du delete - id=" + id, e.getCause());
+                throw new DALException("Erreur du delete - id=" + id, e);
             }
         }
     }
@@ -107,7 +117,7 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
             }
 
         } catch (SQLException e) {
-            throw new DALException("Erreur du select by id - id=" + id, e.getCause());
+            throw new DALException("Erreur du select by id - id=" + id, e);
         }
         finally {
             try {
@@ -115,7 +125,7 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
                     pstmt.close();
                 }
             } catch (SQLException e) {
-                throw new DALException("Erreur du select by id - id=" + id, e.getCause());
+                throw new DALException("Erreur du select by id - id=" + id, e);
             }
         }
         return el;
@@ -137,12 +147,15 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
                 if (rs.getString(6).equals("Stylo")) {
                     Stylo stylo = new Stylo(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getLong(4), rs.getFloat(5), rs.getString(11), rs.getString(12));
                     lesElements.add(stylo);
+                } else if (rs.getString(6).equals("Pain")) {
+                    el = new Pain(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getFloat(5), rs.getLong(4), rs.getFloat(8));
+                    lesElements.add(el);
                 }
 
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
-            throw new DALException("erreur du select all",e.getCause());
+            throw new DALException("erreur du select all",e);
         }
         finally
         {
@@ -153,12 +166,12 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
                 }
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
-                throw new DALException("erreur du select all au niveau du close- ",e.getCause());
+                throw new DALException("erreur du select all au niveau du close- ",e);
             }
         }
         return lesElements;
     }
-
 }
+
 
 

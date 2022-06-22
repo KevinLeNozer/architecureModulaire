@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Produit {
     private long refProd;
-    private String marque;
     private String libelle;
+    private String marque;
     private long qteStock;
     private float prixUnitaire;
     List<Produit> produits = new ArrayList<>();
