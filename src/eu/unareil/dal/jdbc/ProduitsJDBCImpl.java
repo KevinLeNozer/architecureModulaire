@@ -45,9 +45,16 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
                 pstmt.setNull(11, Types.NULL);
                 pstmt.setNull(12, Types.NULL);
             } else if (data instanceof Stylo) {
-                pstmt.setNull(11, Types.VARCHAR);
-                pstmt.setNull(12, Types.VARCHAR);
+                pstmt.setString(5, "stylo");
+                pstmt.setNull(6, Types.NULL);
+                pstmt.setNull(7, Types.NULL);
+                pstmt.setNull(8, Types.NULL);
+                pstmt.setNull(9, Types.NULL);
+                pstmt.setString(10, ((Stylo) data).getCouleur());
+                pstmt.setString(11, ((Stylo) data).getTypeMine());
+                pstmt.setNull(12, Types.NULL);
             } else if (data instanceof CartePostale) {
+
                 pstmt.setNull(12, Types.VARCHAR);
             }
             System.out.println(pstmt);
@@ -145,11 +152,14 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
             while(rs.next())
             {
                 if (rs.getString(6).equals("Stylo")) {
-                    Stylo stylo = new Stylo(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getLong(4), rs.getFloat(5), rs.getString(11), rs.getString(12));
-                    lesElements.add(stylo);
-                } else if (rs.getString(6).equals("Pain")) {
-                    el = new Pain(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getFloat(5), rs.getLong(4), rs.getFloat(8));
+                   el = new Stylo(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getLong(4),
+                           rs.getFloat(5), rs.getString(11), rs.getString(12));
                     lesElements.add(el);
+                } else if (rs.getString(6).equals("Pain")) {
+                   el = new Pain(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getFloat(5), rs.getLong(4), rs.getFloat(8));
+                    lesElements.add(el);
+                } else if (rs.getString(6).equals("Glace")) {
+                        
                 }
 
             }

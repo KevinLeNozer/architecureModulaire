@@ -5,7 +5,6 @@ import java.util.List;
 
 public class CartePostale extends Produit{
     private String type;
-
     List<Auteur> lesAuteursDeLaCarte = new ArrayList<>();
 
 
