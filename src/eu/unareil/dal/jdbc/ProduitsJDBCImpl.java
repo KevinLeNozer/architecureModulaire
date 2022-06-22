@@ -17,7 +17,7 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
     private static final String SQL_INSERT_AUTEUR_CartePostale = "insert into auteur_cartepostale" +
             " (refAuteur, refCartePostale )" + "values(?, ?)";
     private static final String SQL_SELECT_ALL_AUTEUR = "select * from auteur_cartepostale where " +
-            "refAuteur=?";
+            "refCartePostale=?";
     @Override
     public void insert(Produit data) throws DALException {
         PreparedStatement pstmt = null;
@@ -58,7 +58,7 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
                 pstmt.setString(11, ((Stylo) data).getTypeMine());
                 pstmt.setNull(12, Types.NULL);
             } else if (data instanceof CartePostale) {
-                pstmt.setString(5, "CartePostale");
+                pstmt.setString(5, "cartepostale");
                 pstmt.setNull(6, Types.NULL);
                 pstmt.setNull(7, Types.NULL);
                 pstmt.setNull(8, Types.NULL);
@@ -74,7 +74,7 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
                     data.setRefProd(rs.getLong(1));
                     PreparedStatement cartePostalPstmt = null;
                     for (Auteur auteur : ((CartePostale) data).getLesAuteursDeLaCarte()) {
-                        cartePostalPstmt = cnx.prepareStatement(SQL_INSERT_AUTEUR_CartePostale);
+                        cartePostalPstmt  = cnx.prepareStatement(SQL_INSERT_AUTEUR_CartePostale);
                         cartePostalPstmt.setInt(1, auteur.getId());
                         cartePostalPstmt.setLong(2, data.getRefProd());
                         cartePostalPstmt.executeUpdate();
@@ -128,6 +128,8 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
     @Override
     public Produit selectById(long id) throws DALException {
         PreparedStatement pstmt = null;
+        PreparedStatement cartePostalPstmt = null;
+        ResultSet cartePostaleRs = null;
         ResultSet rs = null;
         Produit produit = null;
         Connection cnx = JDBCTools.getConnection();
@@ -136,6 +138,7 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             if (rs.next()) {
+                System.out.println("test");
                 if (rs.getString(6).equals("stylo")) {
                     produit = new Stylo(rs.getLong(1), rs.getString(2), rs.getString(3),
                             rs.getLong(4), rs.getFloat(5), rs.getString(11), rs.getString(12));
@@ -143,10 +146,20 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
                     produit = new Pain(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getFloat(5), rs.getLong(4), rs.getFloat(8));
 
                 } else if (rs.getString(6).equals("glace")) {
-                    //long refProd, String libelle, String marque, long qteStock, float prixUnitaire, LocalDate dateLimiteDeConso, String parfum, int temperatureConservation
                     produit = new Glace(rs.getLong(1), rs.getString(2), rs.getString(3),
                             rs.getLong(4), rs.getInt(5), rs.getDate(7).toLocalDate(),
                             rs.getString(9), rs.getInt(10));
+                } else if (rs.getString(6).equals("cartepostale")) {
+                    cartePostalPstmt  = cnx.prepareStatement(SQL_SELECT_BY_ID);
+                    cartePostalPstmt.setLong(1, rs.getLong(1));
+                    cartePostaleRs = cartePostalPstmt.executeQuery();
+                    AuteursJDBCImpl auteursJDBC = new AuteursJDBCImpl();
+                    List<Auteur> auteurs = new ArrayList<>();
+                    while(cartePostaleRs.next()) {
+                        auteurs.add(auteursJDBC.selectById(cartePostaleRs.getInt(1)));
+                    }
+                    produit = new CartePostale(rs.getLong(1), rs.getString(2), rs.getString(3),
+                            rs.getLong(4), rs.getInt(5), auteurs, TypeCartePostale.valueOf(rs.getString(13)));
                 }
             }
         } catch (SQLException e) {
@@ -211,6 +224,3 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
         return lesElements;
     }
 }
-
-
-
