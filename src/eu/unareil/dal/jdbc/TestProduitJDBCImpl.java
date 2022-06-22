@@ -10,7 +10,7 @@ public class TestProduitJDBCImpl {
         // TODO Auto-generated method stub
         ProduitsJDBCImpl elJdbc = new ProduitsJDBCImpl();
         try {
-            List<Produit> maListe = elJdbc.insert();
+            List<Produit> maListe = elJdbc.selectAll();
             for(Produit el: maListe)
             {
                 System.out.println(el);

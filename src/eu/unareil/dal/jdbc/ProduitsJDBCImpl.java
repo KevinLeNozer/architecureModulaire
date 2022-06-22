@@ -128,17 +128,18 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
         Statement stmt=null;
         ResultSet rs=null;
         List<Produit> lesElements= new ArrayList<>();
-        Produit el=null;
-        //Connection cnx=null;
+        Produit el = null;
         try {
-            stmt=cnx.createStatement();
-            rs=stmt.executeQuery(SQL_SELECT_ALL);
+            stmt = cnx.createStatement();
+            rs = stmt.executeQuery(SQL_SELECT_ALL);
             while(rs.next())
             {
-                el = new Produit(rs.getString(1), rs.getString(2), rs.getLong(3), rs.getFloat(4));
-                lesElements.add(el);
-            }
+                if (rs.getString(6).equals("Stylo")) {
+                    Stylo stylo = new Stylo(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getLong(4), rs.getFloat(5), rs.getString(11), rs.getString(12));
+                    lesElements.add(stylo);
+                }
 
+            }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             throw new DALException("erreur du select all",e.getCause());
