@@ -7,7 +7,7 @@ public class Auteur {
     private int id;
     private String prenom;
     private String nom;
-
+    List<CartePostale> lesCartes = new ArrayList<>();
 
     public Auteur() {
         super();
@@ -15,6 +15,17 @@ public class Auteur {
     public Auteur(String prenom, String nom) {
         this.setPrenom(prenom);
         this.setNom(nom);
+    }
+
+    public Auteur(int id, String prenom, String nom, List<CartePostale> lesCartes) {
+        this(prenom, nom, lesCartes);
+        this.setId(id);
+    }
+
+    public Auteur(String prenom, String nom, List<CartePostale> lesCartes) {
+        this.prenom = prenom;
+        this.nom = nom;
+        this.lesCartes = lesCartes;
     }
 
     public Auteur(int id, String prenom, String nom) {

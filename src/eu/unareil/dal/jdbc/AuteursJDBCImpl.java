@@ -13,6 +13,7 @@ public class AuteursJDBCImpl implements DAO<Auteur>{
     private static final String SQL_DELETE = "delete from auteur where id=?";
     private static final String SQL_SELECT_BY_ID = "select * from auteur where id=?";
     private static final String SQL_SELECT_ALL = "select * from auteur";
+    private static final String SQL_SELECT_ALL_REF_PROD = "select produit.refProd, marque, libelle, prixUnitaire, qteStock, typeCartePostale from produit inner join auteur_cartepostale on produit.refProd= auteur_cartepostale.refProd where refAuteur = ?";
     @Override
     public void insert(Auteur data) throws DALException {
         PreparedStatement pstmt = null;
@@ -77,6 +78,8 @@ public class AuteursJDBCImpl implements DAO<Auteur>{
     @Override
     public Auteur selectById(long id) throws DALException {
         PreparedStatement pstmt = null;
+        PreparedStatement auteurPstmt = null;
+        ResultSet auteurRs = null;
         ResultSet rs = null;
         Auteur auteur = null;
         Connection cnx = JDBCTools.getConnection();
@@ -85,7 +88,15 @@ public class AuteursJDBCImpl implements DAO<Auteur>{
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                auteur = new Auteur(rs.getInt(1), rs.getString(2), rs.getString(3));
+                auteurPstmt = cnx.prepareStatement(SQL_SELECT_ALL_REF_PROD);
+                auteurPstmt.setLong(1, id);
+                auteurRs = auteurPstmt.executeQuery();
+                List<CartePostale> cartePostales = new ArrayList<>();
+                    if (auteurRs.next()) {
+                        cartePostales.add(new CartePostale(auteurRs.getLong(1),
+                                auteurRs.getString(2), auteurRs.getString(3), auteurRs.getLong(4), auteurRs.getFloat(5), auteurRs.getString(6)));
+                    }
+                auteur = new Auteur(rs.getInt(1), rs.getString(2), rs.getString(3), cartePostales);
             }
         } catch (SQLException e) {
             throw new DALException("Erreur du select by id - id=" + id, e);
@@ -107,6 +118,7 @@ public class AuteursJDBCImpl implements DAO<Auteur>{
         Connection cnx = JDBCTools.getConnection();
         // TODO Auto-generated method stub
         Statement stmt=null;
+
         ResultSet rs=null;
         List<Auteur> lesAuteurs= new ArrayList<>();
         Auteur auteur = null;

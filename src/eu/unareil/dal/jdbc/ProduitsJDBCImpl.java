@@ -16,6 +16,7 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
     private static final String SQL_SELECT_ALL = "select * from produit";
     private static final String SQL_INSERT_AUTEUR_CartePostale = "insert into auteur_cartepostale" +
             " (refAuteur, refCartePostale )" + "values(?, ?)";
+
     private static final String SQL_SELECT_ALL_AUTEUR = "select * from auteur_cartepostale where " +
             "refCartePostale=?";
     @Override
@@ -150,6 +151,7 @@ public class ProduitsJDBCImpl implements DAO<Produit>{
                             rs.getLong(4), rs.getInt(5), rs.getDate(7).toLocalDate(),
                             rs.getString(9), rs.getInt(10));
                 } else if (rs.getString(6).equals("cartepostale")) {
+
                     cartePostalPstmt  = cnx.prepareStatement(SQL_SELECT_BY_ID);
                     cartePostalPstmt.setLong(1, rs.getLong(1));
                     cartePostaleRs = cartePostalPstmt.executeQuery();
